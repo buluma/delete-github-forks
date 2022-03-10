@@ -28,5 +28,5 @@ jobs:
         cache: 'npm'
     - run: npm install
     # - run: cp src/config.json.example src/config.json
-    - run: cd src
-    - run: node fetch-repos.js
+    # - run: cd src
+    # - run: node fetch-repos.js
