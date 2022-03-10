@@ -27,6 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: cp src/config.json.example src/config.json
-    - run: cd src
+    # - run: cp src/config.json.example src/config.json
+    # - run: cd src
     - run: node fetch-repos.js
