@@ -20,3 +20,4 @@ jobs:
       - run: npm ci
       - run: node --check src/fetchRepos.js
       - run: node --check src/deleteRepos.js
+      - run: npm test
