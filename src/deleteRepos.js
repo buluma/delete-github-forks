@@ -4,7 +4,7 @@ const readline = require('readline');
 
 const reposForDeletion = require('./repos');
 
-async function deleteRepos(repos) {
+async function deleteRepos(repos, config) {
   let deleted = 0;
   let failed = 0;
 
@@ -34,25 +34,39 @@ async function deleteRepos(repos) {
   if (failed > 0) {
     console.log(`Failed to delete ${failed} repo(s)`);
   }
+
+  return { deleted, failed };
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
+function run() {
+  const reposForDeletion = require('./repos');
 
-console.log('The following repos will be deleted:');
-console.log(reposForDeletion.map((repo) => `- ${repo}`).join('\n'));
-console.log();
-console.log('Are you sure you want to delete the following repos? y/n');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false,
+  });
 
-rl.on('line', async function (line) {
-  if (line.trim().toLowerCase() === 'y') {
-    console.log();
-    await deleteRepos(reposForDeletion);
-  }
+  console.log('The following repos will be deleted:');
+  console.log(reposForDeletion.map((repo) => `- ${repo}`).join('\n'));
+  console.log();
+  console.log('Are you sure you want to delete the following repos? y/n');
 
-  // Terminate the process.
-  rl.close();
-});
+  rl.on('line', async function (line) {
+    if (line.trim().toLowerCase() === 'y') {
+      console.log();
+      await deleteRepos(reposForDeletion, config);
+    }
+
+    // Terminate the process.
+    rl.close();
+  });
+}
+
+// Export the pure function
+module.exports = { deleteRepos };
+
+// If called directly, run the interactive mode
+if (require.main === module) {
+  run();
+}
