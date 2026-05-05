@@ -5,13 +5,18 @@
   "description": "Delete your GitHub forks in bulk.",
   "scripts": {
     "fetch": "node src/fetchRepos.js",
-    "delete": "node src/deleteRepos.js"
+    "delete": "node src/deleteRepos.js",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.31.1"
   },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "nock": "^14.0.14"
+  },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=20.0.0"
   },
   "license": "MIT"
 }

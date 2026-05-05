@@ -8,7 +8,7 @@ const username = config.github_username;
 const URL = `${config.api_url}/users/${username}/repos`;
 const OUT_FILE = 'src/repos.json';
 
-async function fetchRepos(url) {
+async function fetchRepos(url, config) {
   const repos = [];
   let page = 1;
 
@@ -44,12 +44,25 @@ async function fetchRepos(url) {
   return repos;
 }
 
-fetchRepos(URL).then((result) => {
-  console.log('Forked repos found:', result.length);
-  console.log(result.map((repo) => `- ${repo}`).join('\n'));
-  console.log();
-  fs.writeFileSync(OUT_FILE, JSON.stringify(result, null, 2));
-  console.log(
-    `Wrote forked repos into "${path.join(process.cwd(), OUT_FILE)}"`,
-  );
-});
+function run() {
+  fetchRepos(URL, config).then((result) => {
+    console.log('Forked repos found:', result.length);
+    console.log(result.map((repo) => `- ${repo}`).join('\n'));
+    console.log();
+    fs.writeFileSync(OUT_FILE, JSON.stringify(result, null, 2));
+    console.log(
+      `Wrote forked repos into "${path.join(process.cwd(), OUT_FILE)}"`,
+    );
+  }).catch(err => {
+    console.error('Failed to fetch repos:', err.message);
+    process.exit(1);
+  });
+}
+
+// Export the pure function
+module.exports = { fetchRepos };
+
+// If called directly, run
+if (require.main === module) {
+  run();
+}
