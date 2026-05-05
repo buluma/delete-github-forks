@@ -2,8 +2,6 @@ const axios = require('axios');
 const config = require('./config');
 const readline = require('readline');
 
-const reposForDeletion = require('./repos');
-
 async function deleteRepos(repos, config) {
   let deleted = 0;
   let failed = 0;
